@@ -6,7 +6,7 @@ namespace EShop.API.Extensions
     {
         public static IHostApplicationBuilder AddEventStore(this IHostApplicationBuilder builder)
         {
-            var connection = EventStoreConnection.Create(builder.Configuration.GetConnectionString("EventStore"));
+            var connection = EventStoreConnection.Create(connectionString: builder.Configuration.GetConnectionString("EventStore"));
 
             connection.ConnectAsync().Wait();
 
@@ -17,7 +17,7 @@ namespace EShop.API.Extensions
                 builder.SetMinimumLevel(LogLevel.Information);
                 builder.AddConsole();
             });
-            var logger = logFactory.CreateLogger("Startup");
+            var logger = logFactory.CreateLogger<Program>();
 
             connection.Connected += (sender, args) =>
             {
