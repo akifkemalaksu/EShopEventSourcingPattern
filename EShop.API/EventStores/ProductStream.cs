@@ -8,6 +8,7 @@ namespace EShop.API.EventStores
     public class ProductStream : AbstractStream
     {
         public static readonly string StreamName = "ProductStream";
+        public static readonly string GroupName = "agroup";
 
         public ProductStream(IEventStoreConnection eventStoreConnection) : base(StreamName, eventStoreConnection)
         {
@@ -23,14 +24,12 @@ namespace EShop.API.EventStores
         public void NameChanged(ChangeProductNameDto changeProductName)
         {
             var productNameChangedEvent = changeProductName.Adapt<ProductNameChangedEvent>();
-            productNameChangedEvent.Id = Guid.NewGuid();
             Events.AddLast(productNameChangedEvent);
         }
 
         public void PriceChanged(ChangeProductPriceDto changeProductPrice)
         {
             var productPriceChangedEvent = changeProductPrice.Adapt<ProductPriceChangedEvent>();
-            productPriceChangedEvent.Id = Guid.NewGuid();
             Events.AddLast(productPriceChangedEvent);
         }
 
